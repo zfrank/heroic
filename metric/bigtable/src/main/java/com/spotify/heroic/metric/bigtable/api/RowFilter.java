@@ -51,18 +51,18 @@ public interface RowFilter {
         return new Chain(chain);
     }
 
-    com.google.bigtable.v1.RowFilter toPb();
+    com.google.bigtable.v2.RowFilter toPb();
 
     @Data
     static class Chain implements RowFilter {
         private final Iterable<? extends RowFilter> chain;
 
         @Override
-        public com.google.bigtable.v1.RowFilter toPb() {
-            final com.google.bigtable.v1.RowFilter.Chain.Builder chain =
-                com.google.bigtable.v1.RowFilter.Chain.newBuilder();
+        public com.google.bigtable.v2.RowFilter toPb() {
+            final com.google.bigtable.v2.RowFilter.Chain.Builder chain =
+                com.google.bigtable.v2.RowFilter.Chain.newBuilder();
             this.chain.forEach(f -> chain.addFilters(f.toPb()));
-            return com.google.bigtable.v1.RowFilter.newBuilder().setChain(chain.build()).build();
+            return com.google.bigtable.v2.RowFilter.newBuilder().setChain(chain.build()).build();
         }
     }
 
@@ -76,16 +76,16 @@ public interface RowFilter {
         private final Optional<ByteString> endQualifierExclusive;
 
         @Override
-        public com.google.bigtable.v1.RowFilter toPb() {
-            final com.google.bigtable.v1.ColumnRange.Builder builder =
-                com.google.bigtable.v1.ColumnRange.newBuilder().setFamilyName(family);
+        public com.google.bigtable.v2.RowFilter toPb() {
+            final com.google.bigtable.v2.ColumnRange.Builder builder =
+                com.google.bigtable.v2.ColumnRange.newBuilder().setFamilyName(family);
 
             startQualifierInclusive.ifPresent(builder::setStartQualifierInclusive);
             startQualifierExclusive.ifPresent(builder::setStartQualifierExclusive);
             endQualifierInclusive.ifPresent(builder::setEndQualifierInclusive);
             endQualifierExclusive.ifPresent(builder::setEndQualifierExclusive);
 
-            return com.google.bigtable.v1.RowFilter
+            return com.google.bigtable.v2.RowFilter
                 .newBuilder()
                 .setColumnRangeFilter(builder.build())
                 .build();
@@ -130,8 +130,8 @@ public interface RowFilter {
     @Data
     public class BlockAll implements RowFilter {
         @Override
-        public com.google.bigtable.v1.RowFilter toPb() {
-            return com.google.bigtable.v1.RowFilter.newBuilder().setBlockAllFilter(true).build();
+        public com.google.bigtable.v2.RowFilter toPb() {
+            return com.google.bigtable.v2.RowFilter.newBuilder().setBlockAllFilter(true).build();
         }
     }
 }

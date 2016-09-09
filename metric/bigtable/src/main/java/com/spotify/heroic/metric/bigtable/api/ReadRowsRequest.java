@@ -33,9 +33,9 @@ public class ReadRowsRequest {
     private final Optional<RowFilter> filter;
     private final Optional<ByteString> rowKey;
 
-    public com.google.bigtable.v1.ReadRowsRequest toPb(final String tableUri) {
-        final com.google.bigtable.v1.ReadRowsRequest.Builder builder =
-            com.google.bigtable.v1.ReadRowsRequest.newBuilder();
+    public com.google.bigtable.v2.ReadRowsRequest toPb(final String tableUri) {
+        final com.google.bigtable.v2.ReadRowsRequest.Builder builder =
+            com.google.bigtable.v2.ReadRowsRequest.newBuilder();
 
         builder.setTableName(tableUri);
         range.map(RowRange::toPb).ifPresent(builder::setRowRange);

@@ -27,6 +27,7 @@ import com.spotify.heroic.HeroicConfigurationContext;
 import com.spotify.heroic.HeroicCoreInstance;
 import com.spotify.heroic.dagger.CoreComponent;
 import com.spotify.heroic.jetty.JettyJSONErrorHandler;
+import com.spotify.heroic.jetty.JettyRequestLogHandler;
 import com.spotify.heroic.jetty.JettyServerConnector;
 import com.spotify.heroic.lifecycle.LifeCycleRegistry;
 import com.spotify.heroic.lifecycle.LifeCycles;
@@ -202,7 +203,7 @@ public class HttpServer implements LifeCycles {
 
         final RequestLogHandler requestLogHandler = new RequestLogHandler();
 
-        requestLogHandler.setRequestLog(new Slf4jRequestLog());
+        requestLogHandler.setRequestLog(new JettyRequestLogHandler());
 
         final RewriteHandler rewrite = new RewriteHandler();
         makeRewriteRules(rewrite);
